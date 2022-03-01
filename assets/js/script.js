@@ -1,28 +1,29 @@
 // Assignment Code
-var generateBtn = document.querySelector("#generate");
+// var generateBtn = document.querySelector("#generate");
+// generateBtn.addEventListener("click", writePassword ());
+// ADDING BUTTON FUNCTIONALITY
+// HTML Element selector
+// var generateBtn = document.querySelector("#generate");
+// // Click function
+// generateBtn.addEventListener("click", this, generatePassword());
+// var generateBtn = document.querySelector("#generate");
+// // Click function
+// generateBtn.addEventListener("click", generatePassword);
+// DECLARING WRITE PASSWORD FUNCTION
 
-// Write password to the #password input
-var writePassword = function () {
-  var password = generatePassword();
-  // console.log(password);
-  var passwordText = document.querySelector("#password");
-  passwordText.value = password;
-};
 
-// CLICK FUNCTIONALITY FOR BUTTON
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword());
-
+// DECLARING PASSWORD GENERATION FUNCTION
 // When you click the generate password button, this function is called
-function generatePassword() {
+var generatePassword = function () {
   var count = Number(prompt("Please enter the amount of characters you would like in your password."));
 
   // Checks if chosen character count is within the range, and alerts and restarts the process if not
-  if (count <= 2 && count >= 128) {
-    alert("Incorrect amount of characters. Please choose between 8 and 128 characters.");
+  if (count <= 8 && count >= 128 || typeof count !== 'Number') {
+    console.log(typeof count);
+    alert("Please provide a number between 8 and 128.");
     generatePassword();
     }
-    else {
+  else {
   
   // CONFIRM PROMPTS
   var includeUppercase = confirm("Would you like to include uppercase letters?");
@@ -52,7 +53,7 @@ function generatePassword() {
 
   // Logs total characters available to the randomization
   console.log("Length of total characters: " + totalCharacters);
-  console.log(totalCharacters.length)
+  console.log('Length of total characters' + totalCharacters.length)
 
   // Empty string to collect the randomly chosen string elements of our character types
   var genPassword = "";
@@ -71,46 +72,38 @@ function generatePassword() {
 
   // CHARACTER PRESENCE LOGIC
   
-  // Function to check character types within generated password, and return to an array
+  // Function to check character types within generated password, and return to an array, and if 'true is not present, then it will restart the function
   var isCharacterPresent = function (type) {
     var hasCharacterType = [];
     for (var i = 0; i < type.length; i++) {
       hasCharacterType.push(genPassword.includes(type[i])); 
     };
-    console.log(hasCharacterType.includes(true))
     if (hasCharacterType.includes(true)) {
       console.log(type, 'YAY!');
     } else {
-      console.log(type, 'No characters present!')
+      console.log(type, 'No characters present!');
+      generatePassword();
     }
     console.log(hasCharacterType);  
   };
 
+  // RUNNING PRESENCE LOGIC
   isCharacterPresent(lowercaseLetters);
   isCharacterPresent(uppercaseLetters);
   isCharacterPresent(specialCharacters);
   isCharacterPresent(numbers);
 
-  // for (var i = 0; i < totalCharacters.length; i++) {
-  // var hasCharacterType = genPassword.includes(lowercaseLetters[i]);
-  // console.log(i, totalCharacters[i], typeof totalCharacters[i],hasCharacterType);
-  // }
-  // CHECKING FOR PRESENCE OF CHOSEN CHARACTER TYPES
-  // for (var i = 0; i < 4; i++)
-  //   // Defining variable  accept boolean from conditional
-  //  var hasCharacterType;
-  //   // conditional to check strings for character types
-  //   if (includeLowercase) {
-  //   hasCharacterType = genPassword.includes(lowercaseLetters[i]);
-
-  //   } if (includeUppercase) {
-  //   // totalCharacters += uppercaseLetters;
-  //   } if (includeSpecialCharacters) {
-  //   // totalCharacters += specialCharacters;
-  //   } if (includeNumbers) {
-  //   // totalCharacters += numbers;
-  //   }
-  
-  return genPassword;
+  document.querySelector("#password").textContent = `${genPassword}`;
+ 
   }
+
+  // CLICK FUNCTIONALITY FOR BUTTON
+  // Add event listener to generate button
+  
 };
+
+// CLICK FUNCTIONALITY FOR BUTTON
+// Add event listener to generate button
+var generateBtn = document.getElementById("generate");
+// Click function
+generateBtn.addEventListener("click", generatePassword);
