@@ -4,7 +4,7 @@ var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 var writePassword = function () {
   var password = generatePassword();
-  console.log(password);
+  // console.log(password);
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
 };
@@ -16,16 +16,19 @@ generateBtn.addEventListener("click", writePassword());
 // When you click the generate password button, this function is called
 function generatePassword() {
   var count = Number(prompt("Please enter the amount of characters you would like in your password."));
-  if (count >= 8 && count <= 128) {
-  console.log(count);
+
+  // Checks if chosen character count is within the range, and alerts and restarts the process if not
+  if (count <= 2 && count >= 128) {
+    alert("Incorrect amount of characters. Please choose between 8 and 128 characters.");
+    generatePassword();
+    }
+    else {
+  
+  // CONFIRM PROMPTS
   var includeUppercase = confirm("Would you like to include uppercase letters?");
   var includeLowercase = confirm("Would you like to include lowercase letters?");
   var includeSpecialCharacters = confirm("Would you like to include special characters?");
   var includeNumbers = confirm("Would you like to include numbers?");
-
-  // Checking the booleans of the confirm prompts
-  console.log(includeUppercase, includeLowercase, includeSpecialCharacters, includeNumbers);
-
 
   // GENERATING TOTAL POSSIBLE CHARACTERS
   // List of possible character types listed
@@ -48,11 +51,11 @@ function generatePassword() {
   }
 
   // Logs total characters available to the randomization
-  console.log(totalCharacters);
+  console.log("Length of total characters: " + totalCharacters);
+  console.log(totalCharacters.length)
 
   // Empty string to collect the randomly chosen string elements of our character types
   var genPassword = "";
-
 
   // RANDOMIZATIONS
   // This loop adds random string positions from totalCharacters to the genPassword string, and is limited by the chosen count of characters from confirm prompt
@@ -61,12 +64,53 @@ function generatePassword() {
     var random = Math.floor(Math.random() * totalCharacters.length);
     // Adds totalCharacters position value to the genPassWord string
     genPassword += totalCharacters[random];
-  }
-  // Logs generated password
-  console.log(genPassword);
+  };
 
+  // Logs generated password
+  console.log('Generated password: ' + genPassword);
+
+  // CHARACTER PRESENCE LOGIC
+  
+  // Function to check character types within generated password, and return to an array
+  var isCharacterPresent = function (type) {
+    var hasCharacterType = [];
+    for (var i = 0; i < type.length; i++) {
+      hasCharacterType.push(genPassword.includes(type[i])); 
+    };
+    console.log(hasCharacterType.includes(true))
+    if (hasCharacterType.includes(true)) {
+      console.log(type, 'YAY!');
+    } else {
+      console.log(type, 'No characters present!')
+    }
+    console.log(hasCharacterType);  
+  };
+
+  isCharacterPresent(lowercaseLetters);
+  isCharacterPresent(uppercaseLetters);
+  isCharacterPresent(specialCharacters);
+  isCharacterPresent(numbers);
+
+  // for (var i = 0; i < totalCharacters.length; i++) {
+  // var hasCharacterType = genPassword.includes(lowercaseLetters[i]);
+  // console.log(i, totalCharacters[i], typeof totalCharacters[i],hasCharacterType);
+  // }
+  // CHECKING FOR PRESENCE OF CHOSEN CHARACTER TYPES
+  // for (var i = 0; i < 4; i++)
+  //   // Defining variable  accept boolean from conditional
+  //  var hasCharacterType;
+  //   // conditional to check strings for character types
+  //   if (includeLowercase) {
+  //   hasCharacterType = genPassword.includes(lowercaseLetters[i]);
+
+  //   } if (includeUppercase) {
+  //   // totalCharacters += uppercaseLetters;
+  //   } if (includeSpecialCharacters) {
+  //   // totalCharacters += specialCharacters;
+  //   } if (includeNumbers) {
+  //   // totalCharacters += numbers;
+  //   }
+  
   return genPassword;
-} else {
-  alert("Incorrect amount of characters. Please choose between 8 and 128 characters.");
-  generatePassword();
-}};
+  }
+};
