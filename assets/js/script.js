@@ -18,8 +18,7 @@ var generatePassword = function () {
   var count = Number(prompt("Please enter the amount of characters you would like in your password."));
 
   // Checks if chosen character count is within the range, and alerts and restarts the process if not
-  if (count <= 8 && count >= 128 || typeof count !== 'Number') {
-    console.log(typeof count);
+  if (typeof count != 'number' || count <= 8 && count >= 128) {
     alert("Please provide a number between 8 and 128.");
     generatePassword();
     }
